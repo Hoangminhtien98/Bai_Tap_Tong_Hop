@@ -1,7 +1,7 @@
 package BaiTapThem.Ngay25_12.Bai2.model;
 
 public class Fruit {
-    private String name;
+
     private double weight;
     private String taste;
     private String color;
@@ -10,21 +10,14 @@ public class Fruit {
     public Fruit() {
     }
 
-    public Fruit(String name, double weight, String taste, String color, double price) {
-        this.name = name;
+    public Fruit(double weight, String taste, String color, double price) {
+
         this.weight = weight;
         this.taste = taste;
         this.color = color;
         this.price = price;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public double getWeight() {
         return weight;

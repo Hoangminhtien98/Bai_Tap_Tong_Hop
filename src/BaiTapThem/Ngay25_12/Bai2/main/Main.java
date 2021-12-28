@@ -7,6 +7,7 @@ import BaiTapThem.Ngay25_12.Bai2.model.Banana;
 import BaiTapThem.Ngay25_12.Bai2.model.Fruit;
 import BaiTapThem.Ngay25_12.Bai2.model.Lemon;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,86 +17,79 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int choice;
         do {
-            System.out.println("Menu");
-            System.out.println("1. Thêm 1 quả vào list");
-            System.out.println("2. Hiển thị tất cả các loại quả");
-            System.out.println("3. Hiển thị quả Táo");
-            System.out.println("4. Hiển thị quả Chuối");
-            System.out.println("5. Hiển thị quả chanh");
-            System.out.println("6. Hiển thị quả có đơn giá cao nhất");
-            System.out.println("7. Hiển thị quả có thể mua nhiều bằng 100000");
-            System.out.println("8. Thêm quả vao list theo tên ");
-            System.out.println("9. Xóa quả theo tên");
+            System.out.println("----Menu----");
+            System.out.println("1. Hiển thị tất cả các loại quả");
+            System.out.println("2. Hiển thị tất cả quả táo");
+            System.out.println("3. Hiển thị tất cả quả chuối");
+            System.out.println("4. Hiển thị tất cả quả chanh");
+            System.out.println("5. Hiển thị quả có giá cao nhất");
+            System.out.println("6. Với 100000 bạn có thể mua được nhiều nhất");
+            System.out.println("7. Thêm quả");
+            System.out.println("8. Xóa quả theo giá");
+            System.out.println("9. Ghi vào file CSV");
             System.out.println("0. Exit");
             System.out.println("Nhập lựa chọn của bạn: ");
             choice = scanner.nextInt();
+
             switch (choice) {
                 case 1:
-                    managerFruit.addFruit();
+                    managerFruit.displayAll();
                     break;
                 case 2:
-                    managerFruit.displayAllFruit();
+                    managerFruit.displayApple();
                     break;
                 case 3:
-                    ArrayList<Apple> apples = managerFruit.displayAllApple();
-                    for (Apple apple : apples) {
-                        if (apple != null) {
-                            System.out.println("Tất cả quả táo là");
-                            System.out.println(apple);
-                        } else {
-                            System.out.println("Không có quả táo nào trong danh sách!!");
-                        }
-                    }
+                    managerFruit.displayBanana();
                     break;
                 case 4:
-                   ArrayList<Banana> bananas = managerFruit.displayAllBanana();
-                   for (Banana banana : bananas) {
-                       if (banana != null) {
-                           System.out.println("Tất cả quả chuối là: ");
-                           System.out.println(banana);
-                       } else {
-                           System.out.println("Không có quả chuối nào trong danh sách!!");
-                       }
-                   }
+                    managerFruit.displayLemon();
+                    break;
                 case 5:
-                    ArrayList<Lemon> lemons = managerFruit.displayAllLemon();
-                    for (Lemon lemon : lemons) {
-                        if (lemon != null) {
-                            System.out.println("Tất cả quả chanh là: ");
-                            System.out.println(lemon);
-                        } else {
-                            System.out.println("Không có quả chanh nào có trong danh sách!!");
-                        }
-                    }
+                    managerFruit.displayByMaxPrice();
                     break;
                 case 6:
-                    System.out.println("Quả có đơn giá cao nhất là: ");
-                    ArrayList<Fruit> arrayList = managerFruit.searchFruitByPrice();
-                    System.out.println(arrayList);
+                    managerFruit.displayByMinPrice();
                     break;
                 case 7:
-                    System.out.println("Quả có thể mua đc nhiểu nhất bằng 100000 là");
-                    scanner.nextLine();
-                    ArrayList<Fruit> arrayList1 = managerFruit.displayFruitByPrice();
-                    System.out.println(arrayList1);
+                    menu(scanner, managerFruit);
                     break;
                 case 8:
-                    System.out.println("Nhập Tên Quả ");
-                    scanner.nextLine();
-                    String name = scanner.nextLine();
-                    managerFruit.updateFruitByName(name);
-                case 9:
-                    System.out.println("Input name: ");
-                    String nameDelete = String.valueOf(scanner.nextInt());
-                    scanner.nextLine();
-                    Fruit fruit = managerFruit.deletedFruit(nameDelete);
-                    if (fruit == null){
-                        System.out.println("Không có quả có tên tương ứng");
-                    } else {
-                        System.out.println();
-                    }
+                    System.out.println("Nhập giá muốn xóa: ");
+                    double price = scanner.nextDouble();
+                    ArrayList<Fruit> fruitDelete = managerFruit.deleteByPrice(price);
                     break;
+                case 9:
+                    managerFruit.exportCsv();
+                    break;
+
             }
         } while (choice != 0);
+    }
+    public static void menu(Scanner scanner, ManagerFruit managerFruit) {
+        int choice1;
+        do {
+            System.out.println("---Menu---");
+            System.out.println("1. Thêm quả táo");
+            System.out.println("2. Thêm quả chuối");
+            System.out.println("3. Thêm quả chanh");
+            System.out.println("0. Quay lại menu");
+            System.out.println("Nhập lựa chọn của bạn: ");
+            choice1 = scanner.nextInt();
+
+            switch (choice1) {
+                case 1:
+                    Apple apple = (Apple) managerFruit.createFruit(choice1);
+                    managerFruit.addFruit(apple);
+                    break;
+                case 2:
+                    Banana banana = (Banana) managerFruit.createFruit(choice1);
+                    managerFruit.addFruit(banana);
+                    break;
+                case 3:
+                    Lemon lemon = (Lemon) managerFruit.createFruit(choice1);
+                    managerFruit.addFruit(lemon);
+                    break;
+            }
+        } while (choice1 != 0);
     }
 }

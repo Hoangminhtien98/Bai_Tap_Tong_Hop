@@ -5,171 +5,133 @@ import BaiTapThem.Ngay25_12.Bai2.model.Banana;
 import BaiTapThem.Ngay25_12.Bai2.model.Fruit;
 import BaiTapThem.Ngay25_12.Bai2.model.Lemon;
 
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 public class ManagerFruit {
-    ArrayList<Fruit> fruits;
-    Scanner scanner = new Scanner(System.in);
+    private ArrayList<Fruit> fruits = new ArrayList<>();
+    private final Scanner scanner = new Scanner(System.in);
 
     public ManagerFruit() {
-        this.fruits = new ArrayList<>();
     }
-
-    public void displayAllFruit() {
+    public void displayAll() {
         for (Fruit fruit : fruits) {
             System.out.println(fruit);
         }
     }
-
-    public void addFruit() {
-        fruits.add(createFruit());
+    public void displayApple() {
+        for (Fruit fruit : fruits) {
+            if (fruit instanceof Apple) {
+                System.out.println(fruit);
+            }
+        }
+    }
+    public void displayBanana() {
+        for (Fruit fruit : fruits) {
+            if (fruit instanceof Banana) {
+                System.out.println(fruit);
+            }
+        }
+    }
+    public void displayLemon() {
+        for (Fruit fruit : fruits) {
+            if (fruit instanceof Lemon) {
+                System.out.println(fruit);
+            }
+        }
     }
 
-    public Fruit createFruit() {
-        System.out.println("1. Banana");
-        System.out.println("2. Lemon");
-        System.out.println("3. Apple");
-        int choice = scanner.nextInt();
-        double weight;
-        String taste;
-        String color;
-        double price;
-        Fruit fruitSample = null;
+    public Fruit createFruit(int choice) {
+        System.out.println("Nhập cân nặng(kg): ");
+        double weight = scanner.nextDouble();
+        System.out.println("Nhập vị: ");
         scanner.nextLine();
-
-        switch (choice) {
-            case 1:
-                System.out.println("Nhập cân nặng: ");
-                weight = scanner.nextDouble();
-                System.out.println("Nhập vị : ");
-                taste = scanner.nextLine();
-                scanner.nextLine();
-                System.out.println("Nhập màu: ");
-                color = scanner.nextLine();
-                System.out.println("Nhập giá tiền: ");
-                price = scanner.nextDouble();
-                scanner.nextLine();
-                fruitSample = new Banana(weight, taste, color, price);
-                break;
-            case 2:
-                System.out.println("Nhập cân nặng: ");
-                weight = scanner.nextDouble();
-                System.out.println("Nhập vị : ");
-                taste = scanner.nextLine();
-                scanner.nextLine();
-                System.out.println("Nhập màu: ");
-                color = scanner.nextLine();
-                System.out.println("Nhập giá tiền: ");
-                price = scanner.nextDouble();
-                scanner.nextLine();
-                fruitSample = new Lemon(weight, taste, color, price);
-                break;
-            case 3:
-                System.out.println("Nhập cân nặng: ");
-                weight = scanner.nextDouble();
-                System.out.println("Nhập vị : ");
-                taste = scanner.nextLine();
-                scanner.nextLine();
-                System.out.println("Nhập màu: ");
-                color = scanner.nextLine();
-                System.out.println("Nhập giá tiền: ");
-                price = scanner.nextDouble();
-                scanner.nextLine();
-                fruitSample = new Apple(weight, taste, color, price);
-                break;
+        String taste = scanner.nextLine();
+        System.out.println("Nhập màu sắc: ");
+        String color = scanner.nextLine();
+        System.out.println("Nhập giá tiền: ");
+        double price = scanner.nextDouble();
+        scanner.nextLine();
+        if (choice == 1) {
+            return new Apple(weight, taste, color, price);
+        } else if (choice == 2) {
+            return new Banana(weight, taste, color, price);
+        } else if (choice == 3) {
+            return new Lemon(weight, taste, color, price);
         }
-        return fruitSample;
+        return null;
     }
 
-    public ArrayList<Fruit> searchFruitByPrice() {
-        ArrayList<Fruit> fruit = new ArrayList<>();
-        double max = fruits.get(0).getPrice();
-        for (Fruit f : fruits) {
-            if (f.getPrice() > max) {
-                max = f.getPrice();
-            }
-        }
-        for (Fruit f : fruits) {
-            if (f.getPrice() == max) {
-                fruit.add(f);
-            }
-        }
-        return fruit;
+    public void addFruit(Fruit fruit) {
+        fruits.add(fruit);
     }
-    public ArrayList<Fruit> displayFruitByPrice() {
+
+    public ArrayList<Fruit> deleteByPrice(double price) {
         ArrayList<Fruit> fruitArrayList = new ArrayList<>();
-        for (Fruit f : fruits) {
-            if (f.getPrice() <= 100000) {
-                fruitArrayList.add(f);
+        for (Fruit fruit : fruits) {
+            if (fruit.getPrice() == price) {
+                fruitArrayList.add(fruit);
             }
         }
+        fruits.removeAll(fruitArrayList);
         return fruitArrayList;
     }
 
-    public ArrayList<Apple> displayAllApple () {
-        ArrayList<Apple> apples = new ArrayList<>();
+    public void displayByMaxPrice() {
+        double maxPrice = fruits.get(0).getPrice();
         for (Fruit fruit : fruits) {
-            if (fruit instanceof Apple) {
-                apples.add((Apple) fruit);
+            if (fruit.getPrice() > maxPrice) {
+                maxPrice = fruit.getPrice();
             }
         }
-        return apples;
-    }
-    public ArrayList<Banana> displayAllBanana () {
-        ArrayList<Banana> bananas  = new ArrayList<>();
         for (Fruit fruit : fruits) {
-            if (fruit instanceof Banana) {
-                bananas.add((Banana) fruit);
+            if (fruit.getPrice() == maxPrice) {
+                System.out.println(fruit);
             }
         }
-        return bananas;
     }
-    public ArrayList<Lemon> displayAllLemon () {
-        ArrayList<Lemon> lemons = new ArrayList<>();
+    public void displayByMinPrice() {
+        double minPrice = fruits.get(0).getPrice();
         for (Fruit fruit : fruits) {
-            if (fruit instanceof Lemon) {
-                lemons.add((Lemon) fruit);
+            if (fruit.getPrice() < minPrice) {
+                minPrice = fruit.getPrice();
             }
         }
-        return lemons;
-    }
-    public Fruit updateFruitByName(String name) {
-        Fruit fruit = null;
-        for (Fruit f : fruits) {
-            if (f.getName().equals(name)) {
-                fruit = f;
+        for (Fruit fruit : fruits) {
+            if (fruit.getPrice() == minPrice) {
+                System.out.println(fruit);
             }
         }
-        if (fruit != null) {
-            int index = fruits.indexOf(fruit);
-            System.out.println("Nhập cân nặng mới : ");
-            double wei = scanner.nextDouble();
-            fruit.setWeight(wei);
-            System.out.println("Nhập vị mới: ");
-            scanner.nextLine();
-            String taste = scanner.nextLine();
-            fruit.setTaste(taste);
-            System.out.println("Nhập màu sắc mới: ");
-            String color = scanner.nextLine();
-            fruit.setColor(color);
-            System.out.println("Nhập giá mới: ");
-            double price = scanner.nextDouble();
-            fruit.setPrice(price);
-            scanner.nextLine();
-            fruits.set(index, fruit);
-        }
-        return fruit;
     }
-    public Fruit deletedFruit(String name) {
-        Fruit fruit = null;
-        for (Fruit f : fruits) {
-            if (f.getName().equals(name)) {
-                fruit = f;
-            }
-        }
-        int index = fruits.indexOf(fruit);
-        return fruits.remove(index);
-    }
+    public void exportCsv(){
+        try (BufferedWriter bufferedWriter = new BufferedWriter(
+                new FileWriter(String.format("src/BaiTapThem/Ngay25_12/Bai2/test_%s.csv", new Date().getTime())))){
+            StringBuilder sb = new StringBuilder();
+            sb.append("weight,");
+            sb.append("Taste,");
+            sb.append("Color,");
+            sb.append("Price,");
+            sb.append('\n');
 
+            if (fruits.size() > 0) {
+                for (Fruit fruit : fruits) {
+                    sb.append(fruit.getWeight());
+                    sb.append(',');
+                    sb.append(fruit.getTaste());
+                    sb.append(',');
+                    sb.append(fruit.getColor());
+                    sb.append(',');
+                    sb.append(fruit.getPrice());
+                    sb.append('\n');
+                }
+            }
+            bufferedWriter.write(sb.toString());
+            System.out.println("Write successfully!");
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
 }
