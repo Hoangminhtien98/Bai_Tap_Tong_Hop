@@ -21,7 +21,7 @@ public class Main {
             choice = scanner.nextInt();
             switch (choice) {
                 case 1:
-                    manager.displayStudent();
+                    manager.display();
                     break;
                 case 2:
                     manager.deleteStudent()

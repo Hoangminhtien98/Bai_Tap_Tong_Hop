@@ -55,9 +55,9 @@ public class Manager {
         return deleteStudent;
     }
 
-    public Student editStudentByName(String name){
+    public Student editStudent(String name){
         Student editStudent = null;
-        int index = -1;
+        int index = 0;
         for (int i = 0; i < students.size(); i++) {
             if(students.get(i).getName().equals(name)){
                 editStudent  = students.get(i);
@@ -65,11 +65,11 @@ public class Manager {
                 break;
             }
         }
-        if(index!=-1){
+        if(index!= 0){
             students.remove(index);
             System.out.println("Nhập lại thông tin sinh viên");
             Student newStudent = create();
-            students.add(index,newStudent);
+            students.add(index, newStudent);
 
             System.out.println("Sửa thành công!");
         }else {
@@ -80,7 +80,7 @@ public class Manager {
     public void displayStudentHasAvgPointMoreThan7(){
         for (Student st:students) {
             if(st.getAveragePoints() >7.5){
-                System.out.println(s);
+                System.out.println(students);
             }
         }
     }

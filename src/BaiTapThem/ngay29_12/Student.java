@@ -9,6 +9,7 @@ public class Student extends Human {
         this.averagePoints = averagePoints;
     }
 
+
     public double getAveragePoints() {
         return averagePoints;
     }
