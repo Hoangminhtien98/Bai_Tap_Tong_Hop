@@ -6,7 +6,7 @@ public class Human {
     private String gender;
     private String address;
 
-    public Human(String name, int age, String gender, String address, double average) {
+    public Human() {
     }
 
     public Human(String name, int age, String gender, String address) {
